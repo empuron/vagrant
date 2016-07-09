@@ -19,9 +19,7 @@ Vagrant.configure("2") do |config|
 #    lr.vm.synced_folder "./", "/opt/vagrant_sync", create:true
     lr.vm.synced_folder ".", "/vagrant", disabled:true
     lr.vm.provision :shell, :inline => "echo root | passwd --stdin root"
-    lr.vm.provision :file, source: "./salt-repo", destination: "/opt/salt-repo"
-    lr.vm.provision :shell, :inline => "yum install -y salt-minion 2>/dev/null"
-    lr.vm.provision :shell, :inline => "service salt-minion start"
+    lr.vm.provision :shell, :path "start.sh"
 
     lr.vm.provider :virtualbox do |lr_vb|
       lr_vb.name = "Solar-Liferay"
