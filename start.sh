@@ -1,3 +1,7 @@
 #!/bin/bash
 
-echo "Hello World"
+echo "--- Start Script ---"
+yum install epel-release -y 2>/dev/null
+yum install -y salt-minion 2>/dev/null
+service salt-minion start
+echo "--- End Script ---"
