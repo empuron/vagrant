@@ -1,6 +1,6 @@
 # vagrant
 Vagrant Projekte für Empuron
 
-Zwei Virtuelle Maschinen:
+Zwei virtuelle Maschinen:
  - JBoss VM für JBoss 5.1
  - Liferay VM für Liferay 6.1
