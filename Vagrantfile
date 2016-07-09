@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
     lr.vm.provision :shell, :inline => "echo root | passwd --stdin root"
     lr.vm.provision :shell, :inline => "localectl set-keymap de"
     lr.vm.provision :shell, path: "start.sh"
-    lr.vm.provision :file, source: "start.sls", destination: "/srv/salt"
+    lr.vm.provision :file, source: "start.sls", destination: "/srv/salt/start.sls"
     lr.vm.provision :shell, :inline => "salt-call --local state.apply start"
 
     lr.vm.provider :virtualbox do |lr_vb|
