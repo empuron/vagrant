@@ -16,6 +16,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "Liferay-VM" do |lr|
     lr.vm.box = "centos7.1"
     lr.vm.network :private_network, :ip => "172.10.1.11"
+    lr.vm.network "forwarded_port", guest: 80, host: 7777
     lr.vm.synced_folder ".", "/vagrant", disabled:true
     lr.vm.provision :shell, :inline => "echo root | passwd --stdin root"
     lr.vm.provision :shell, :inline => "localectl set-keymap de"
