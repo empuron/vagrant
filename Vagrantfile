@@ -12,17 +12,34 @@ Vagrant.configure("2") do |config|
       jb_vb.name = "Solar-JBoss"
     end
   end
-  
+
   config.vm.define "Liferay-VM" do |lr|
     lr.vm.box = "centos7.1"
     lr.vm.network :private_network, :ip => "172.10.1.11"
-    lr.vm.network "forwarded_port", guest: 80, host: 7777
+    lr.vm.network :forwarded_port, guest: 80, host: 7777
     lr.vm.synced_folder ".", "/vagrant", disabled:true
     lr.vm.provision :shell, :inline => "echo root | passwd --stdin root"
     lr.vm.provision :shell, :inline => "localectl set-keymap de"
     lr.vm.provision :shell, path: "start.sh"
-    lr.vm.provision :file, source: "start.sls", destination: "/srv/salt/start.sls"
-    lr.vm.provision :shell, :inline => "salt-call --local state.apply start >/dev/null"
+
+# => Chef
+    lr.vm.provision :chef_solo do |lr_chef|
+      lr_chef.add_recipe "main"
+    end
+
+# => Puppet
+#    lr.vm.provision :puppet
+
+# => Saltstack
+#    lr.vm.provision :file, source: "start.sls", destination: "/srv/salt/start.sls"
+#    lr.vm.provision :shell, :inline => "salt-call --local state.apply start >/dev/null"
+
+# => Ansible
+#    lr.vm.provision :ansible do |lr_ansible|
+#      lr_ansible.playbook = "start.yml"
+#    end
+
+    lr.vm.post_up_message = "Unter Port 7777 ist der Apache auf dem Host erreichbar. http://localhost:7777"
 
     lr.vm.provider :virtualbox do |lr_vb|
       lr_vb.name = "Solar-Liferay"

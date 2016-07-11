@@ -1,0 +1,8 @@
+- hosts: all
+  tasks:
+    - name: Versichere, dass Apache installiert ist
+      sudo: yes
+      yum: name=httpd state=latest
+
+    - name: Versichere, dass Apache am laufen ist
+      service: name=httpd state=started
