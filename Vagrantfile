@@ -2,6 +2,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "T1" do |tm1|
     tm1.vm.box = "centos7.1"
+    tm1.vm.box_url = "https://github.com/CommanderK5/packer-centos-template/releases/download/0.7.1/vagrant-centos-7.1.box"
     tm1.vm.network :private_network, :ip => "150.150.150.1"
     tm1.vm.synced_folder "./", "/vagrant", disabled:true
     tm1.vm.provision :shell, path: "start.sh"
