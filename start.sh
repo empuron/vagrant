@@ -26,6 +26,7 @@ yum install salt-minion -y >/dev/null
 service salt-minion start >/dev/null
 chkconfig salt-minion on >/dev/null
 
-echo "Erstelle Salt Verzeichnis"
+echo "Erstelle Salt Verzeichnis mit Berechtigungen"
 mkdir /srv/salt >/dev/null
+chmod 777 /srv/salt >/dev/null
 echo "--- Skript Ende ---"
