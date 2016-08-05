@@ -10,6 +10,9 @@ Vagrant.configure("2") do |config|
     s8.vm.provision :shell, :inline => "chmod -R 777 /opt"
     s8.vm.synced_folder "./Files", "/vagrant"
 
+    s8.vm.network :forwarded_port, guest: 8080, host: 11111
+    s8.vm.network :forwarded_port, guest: 18080, host: 22222
+
     s8.vm.provision :chef_solo do |sys_chef|
       sys_chef.channel = "stable"
       sys_chef.version = "12.10.24"

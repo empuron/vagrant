@@ -4,7 +4,9 @@
 change_root_command = "echo root | passwd --stdin root"
 change_keyboard_command = "localectl set-keymap de"
 
-bash change_root_command
+execute 'change_root' do
+  command change_root_command
+end
 
 user 'empuron' do
   uid '1111'
@@ -12,7 +14,14 @@ user 'empuron' do
   shell '/bin/bash'
 end
 
-bash 'echo empuron | passwd --stdin empuron'
+execute 'change_empuron' do
+  command 'echo empuron | passwd --stdin empuron'
+end
+
+execute 'empuron_sudoers' do
+  user 'root'
+  command 'usermod -a -G wheel empuron'
+end
 
 execute 'change_keyboard' do
   command change_keyboard_command

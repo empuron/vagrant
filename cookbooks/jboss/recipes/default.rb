@@ -15,8 +15,12 @@ end
 
 execute 'postgres_db_jb_priv' do
   user 'postgres'
-  command 'psql -c "GRANT ALL PRIVILEGES ON DATABASE demo to empuron;"'
+  command 'psql -c "GRANT ALL PRIVILEGES ON DATABASE demo TO empuron;"'
 end
+
+#execute 'postgres_db_jb_tables' do
+# command 'GRANT ALL PRIVILEGES ON TABLE demo TO empuron;'
+#end
 
 execute 'create_jb_dir' do
   command "mkdir /opt/jboss && chmod 777 /opt/jboss"
@@ -32,6 +36,6 @@ execute 'copy_jboss_service' do
 end
 
 execute 'change_opt' do
-  command "chown -R empuron.empuron /opt/jboss"
+  command "chown -R empuron.empuron /opt/jboss && chmod -R 755 /opt/jboss"
 end
 # --------------------------------------------

@@ -15,8 +15,12 @@ end
 
 execute 'postgres_db_lr_priv' do
   user 'postgres'
-  command 'psql -c "GRANT ALL PRIVILEGES ON DATABASE liferay to empuron;"'
+  command 'psql -c "GRANT ALL PRIVILEGES ON DATABASE liferay TO empuron;"'
 end
+
+#execute 'postgres_db_lr_tables' do
+# command 'GRANT ALL PRIVILEGES ON TABLE liferay TO empuron;'
+#end
 
 execute 'create_lr_dir' do
   command "mkdir /opt/liferay && chmod 777 /opt/liferay"
@@ -32,6 +36,6 @@ execute 'copy_liferay_service' do
 end
 
 execute 'change_opt' do
-  command "chown -R empuron.empuron /opt/liferay"
+  command "chown -R empuron.empuron /opt/liferay && chmod -R 755 /opt/liferay"
 end
 # --------------------------------------------
