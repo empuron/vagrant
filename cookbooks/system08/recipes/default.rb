@@ -57,17 +57,24 @@ execute 'postgres_db_pre2' do
 end
 
 execute 'postgres_db_pre3' do
+  command "sed -i 's/peer/trust/g; s/ident/trust/g' /var/lib/pgsql/data/pg_hba.conf"
+end
+
+execute 'postgres_db' do
+  user "postgres"
+  cwd '/vagrant'
+  command 'psql demo < jb7_demo_Dump.sql >/dev/null'
+end
+
+execute 'postgres_db_end' do
   user 'postgres'
   command 'psql -c "GRANT ALL PRIVILEGES ON DATABASE demo to empuron;"'
 end
 
-execute 'postgres_db' do
-  user 'postgres'
-  cwd '/vagrant'
-  command 'echo "Datenbank wird eingespielt..." && psql -U empuron demo < jb7_demo_Dump.sql >/dev/null && echo "Datenbank wurde vollständig eingespielt"'
+execute 'postgres_restart' do
+  user 'root'
+  command 'service postgresql restart'
 end
-
-# --------------------------------------------
 
 # --------------------------------------------
 # VM Einstellungen
@@ -89,3 +96,4 @@ end
 execute 'change_opt' do
   command "chown -R empuron.empuron /opt/jboss"
 end
+# --------------------------------------------
