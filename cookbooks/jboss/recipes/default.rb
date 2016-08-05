@@ -8,9 +8,9 @@ execute 'postgres_db_pre_jb' do
 end
 
 execute 'postgres_db_jb' do
-  user "postgres"
+  user 'root'
   cwd '/vagrant'
-  command 'echo "Datenbank demo wird installiert..." && psql demo < jb7_demo_Dump.sql >/dev/null && echo "Datenbank demo wurde erfolgreich installiert"'
+  command 'echo "Datenbank demo wird installiert..." && psql -U empuron demo < jb7_demo_Dump.sql >/dev/null && echo "Datenbank demo wurde erfolgreich installiert"'
 end
 
 execute 'postgres_db_jb_priv' do

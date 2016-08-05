@@ -8,9 +8,9 @@ execute 'postgres_db_pre_lr' do
 end
 
 execute 'postgres_db_lr' do
-  user "postgres"
+  user 'root'
   cwd '/vagrant'
-  command 'echo "Datenbank liferay wird installiert..." && psql liferay < jb7_liferay_Dump.sql >/dev/null && echo "Datenbank liferay wurde erfolgreich installiert"'
+  command 'echo "Datenbank liferay wird installiert..." && psql -U empuron liferay < jb7_liferay_Dump.sql >/dev/null && echo "Datenbank liferay wurde erfolgreich installiert"'
 end
 
 execute 'postgres_db_lr_priv' do
