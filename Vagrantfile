@@ -32,7 +32,9 @@ Vagrant.configure("2") do |config|
     end
 
     s8.vm.provider :virtualbox do |s8_vb|
-      s8_vb.name = "System08-JBoss"
+      s8_vb.name = "System08"
+      s8_vb.memory = 4096
+      s8_vb.cpus = 4
     end
   end
 
