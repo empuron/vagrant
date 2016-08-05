@@ -1,80 +1,23 @@
 # --------------------------------------------
-# Standard Einstellungen
+# Liferay Einstellungen
 # --------------------------------------------
-change_root_command = "echo root | passwd --stdin root"
-change_keyboard_command = "localectl set-keymap de"
 
-execute 'change_root_password' do
-  command change_root_command
-end
-
-user 'empuron' do
-  uid '1111'
-  home '/home/empuron'
-  shell '/bin/bash'
-end
-
-bash 'echo empuron | passwd --stdin empuron'
-
-bash change_keyboard_command
-
-execute 'copy_java' do
-  command 'cp /vagrant/jdk-7u79-linux-x64.rpm /opt/jdk-7u79-linux-x64.rpm'
-end
-
-execute 'install_java' do
-  command 'yum install -y /opt/jdk-7u79-linux-x64.rpm'
-end
-
-package 'postgresql' do
-  action :install
-end
-
-package 'postgresql-server' do
-  action :install
-end
-
-execute 'postgresql_init' do
-  command 'postgresql-setup initdb'
-end
-
-service 'postgresql' do
-  action [:enable, :start]
-end
-
-execute 'postgres_db_pre1' do
-  user 'postgres'
-  command 'psql -c "CREATE USER empuron WITH PASSWORD \'root!\'";'
-end
-
-execute 'postgres_db_pre2' do
+execute 'postgres_db_pre_lr' do
   user 'postgres'
   command 'psql -c "CREATE DATABASE liferay;"'
 end
 
-execute 'postgres_db_pre3' do
-  command "sed -i 's/peer/trust/g; s/ident/trust/g' /var/lib/pgsql/data/pg_hba.conf"
-end
-
-execute 'postgres_db' do
+execute 'postgres_db_lr' do
   user "postgres"
   cwd '/vagrant'
-  command 'echo "Datenbank wird eingelesen" && psql liferay < jb7_liferay_Dump.sql >/dev/null && echo "Datenbank erfolgreich eingelesen"'
+  command 'echo "Datenbank liferay wird installiert..." && psql liferay < jb7_liferay_Dump.sql >/dev/null && echo "Datenbank liferay wurde erfolgreich installiert"'
 end
 
-execute 'postgres_db_end' do
+execute 'postgres_db_lr_priv' do
   user 'postgres'
   command 'psql -c "GRANT ALL PRIVILEGES ON DATABASE liferay to empuron;"'
 end
 
-execute 'postgres_restart' do
-  user 'root'
-  command 'service postgresql restart'
-end
-
-# --------------------------------------------
-# VM Einstellungen
-# --------------------------------------------
 execute 'create_lr_dir' do
   command "mkdir /opt/liferay && chmod 777 /opt/liferay"
 end
@@ -87,7 +30,6 @@ execute 'copy_liferay_service' do
   user "root"
   command 'cp /vagrant/liferay.service /usr/lib/systemd/system/liferay.service'
 end
-# --------------------------------------------
 
 execute 'change_opt' do
   command "chown -R empuron.empuron /opt/liferay"
