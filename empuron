@@ -1,8 +1,57 @@
 #!/usr/bin/env bash
 
+jboss="/home/moritz/system08_single/Files/jb7_demo_Dump.sql"
+liferay="/home/moritz/system08_single/Files/jb7_liferay_Dump.sql"
+jboss_dir="/home/moritz/system08_single/Files/jboss"
+liferay_dir="/home/moritz/system08_single/Files/liferay"
+java_sdk="/home/moritz/system08_single/Files/jdk-7u79-linux-x64.rpm"
+test_spec="/home/moritz/system08_single/Files/test_spec.rb"
 
 case "$1" in
   up)
+  if [[ -e "$jboss" ]]
+  then
+    echo -e "Erfolgreich \t\033[32;1mJBoss Dump File gefunden\033[0m"
+  else
+    echo -e "Fehler \t\033[31;1mJBoss Dump File nicht gefunden\033[0m"
+    exit 1
+  fi
+  if [[ -f "$liferay" ]]
+  then
+    echo -e "Erfolgreich \t\033[32;1mLiferay Dump File gefunden\033[0m"
+  else
+    echo -e "Fehler \t\t\033[31;1mLiferay Dump File nicht gefunden\033[0m"
+    exit 1
+  fi
+  if [[ -d "$jboss_dir" ]]
+  then
+    echo -e "Erfolgreich \t\033[32;1mJBoss Ordner gefunden\033[0m"
+  else
+    echo -e "Fehler \t\t\033[31;1mJBoss Ordner nicht gefunden\033[0m"
+    exit 1
+  fi
+  if [[ -d "$liferay_dir" ]]
+  then
+    echo -e "Erfolgreich \t\033[32;1mLiferay Ordner gefunden\033[0m"
+  else
+    echo -e "Fehler \t\t\033[31;1mLiferay Ordner nicht gefunden\033[0m"
+    exit 1
+  fi
+  if [[ -f "$java_sdk" ]]
+  then
+    echo -e "Erfolgreich \t\033[32;1mJava SDK RPM gefunden\033[0m"
+  else
+    echo -e "Fehler \t\t\033[31;1mJava SDK RPM nicht gefunden\033[0m"
+    exit 1
+  fi
+  if [[ -f "$test_spec" ]]
+  then
+    echo -e "Erfolgreich \t\033[32;1mInSpec Test gefunden\033[0m"
+  else
+    echo -e "Fehler \t\t\033[31;1mInSpec Test nicht gefunden\033[0m"
+    exit 1
+  fi
+
   vagrant up
   echo "Hier die Resultate von dem VM Start:"
   echo "------------------------------------"
