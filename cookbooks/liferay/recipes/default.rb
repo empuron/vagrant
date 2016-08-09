@@ -30,11 +30,6 @@ execute 'copy_liferay' do
   command 'cp -r /vagrant/liferay/* /opt/liferay'
 end
 
-execute 'copy_liferay_service' do
-  user "root"
-  command 'cp /vagrant/liferay.service /usr/lib/systemd/system/liferay.service'
-end
-
 execute 'change_opt' do
   command "chown -R empuron.empuron /opt/liferay && chmod -R 755 /opt/liferay"
 end

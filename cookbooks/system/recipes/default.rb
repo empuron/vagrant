@@ -1,6 +1,6 @@
-# --------------------------------------------
-# Standard Einstellungen
-# --------------------------------------------
+#############################################################################
+# Standard Installation #####################################################
+#############################################################################
 change_root_command = "echo root | passwd --stdin root"
 change_keyboard_command = "localectl set-keymap de"
 
@@ -27,14 +27,23 @@ execute 'change_keyboard' do
   command change_keyboard_command
 end
 
-execute 'copy_java' do
+execute 'java_copy' do
   command 'cp /vagrant/jdk-7u79-linux-x64.rpm /opt/jdk-7u79-linux-x64.rpm'
 end
 
-execute 'install_java' do
+execute 'java_install' do
   command 'yum install -y /opt/jdk-7u79-linux-x64.rpm'
 end
 
+execute 'gcc_make_install' do
+  user 'root'
+  command 'yum install gcc make -y'
+end
+#############################################################################
+
+#############################################################################
+# PostgreSQL Installation ###################################################
+#############################################################################
 package 'postgresql' do
   action :install
 end
@@ -64,4 +73,44 @@ execute 'postgres_restart' do
   user 'root'
   command 'service postgresql restart'
 end
-# --------------------------------------------
+#############################################################################
+
+#############################################################################
+# Ruby Installation #########################################################
+#############################################################################
+
+execute 'ruby_download' do
+  cwd '/opt'
+  user 'root'
+  command 'wget https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.1.tar.gz'
+end
+
+execute 'ruby_extract' do
+  cwd '/opt'
+  user 'root'
+  command 'tar xvf ruby-2.3.1.tar.gz'
+end
+
+execute 'zlib_openssl-devel_install' do
+  user 'root'
+  command 'yum install -y zlib-devel openssl openssl-devel'
+end
+
+execute 'ruby_install' do
+  cwd '/opt/ruby-2.3.1'
+  user 'root'
+  command './configure --with-openssl-dir=/usr/lib64/openssl && make && make install'
+end
+
+#############################################################################
+
+#############################################################################
+# InSpec Installation #######################################################
+#############################################################################
+
+execute 'inspec_install' do
+  user 'root'
+  command 'gem install inspec'
+end
+
+#############################################################################

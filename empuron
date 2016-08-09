@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+
+case "$1" in
+  up)
+  vagrant up
+  echo "Hier die Resultate von dem VM Start:"
+  echo "------------------------------------"
+  cat /home/moritz/system08_single/Files/test_result
+    ;;
+  down)
+  echo "Vagrant VM wird beendet und gelöscht..."
+  vagrant halt && vagrant destroy -f
+    ;;
+  status)
+  vagrant status
+    ;;
+  *)
+  echo "Keine Argument übergeben"
+  echo "Entweder mit 'up' starten"
+  echo "Oder mit 'down' beenden"
+    ;;
+esac

@@ -31,6 +31,19 @@ Vagrant.configure("2") do |config|
       lr_chef.add_recipe "liferay"
     end
 
+    s8.vm.provision "run_inspec", type: "chef_apply" do |inspec|
+      inspec.recipe = <<-recipe
+        execute 'inspec_test_copy' do
+          command 'cp /vagrant/test_spec.rb /opt/test_spec.rb'
+        end
+
+        execute "inspec_test" do
+          user 'root'
+          command '/opt/chef/embedded/bin/inspec exec /opt/test_spec.rb > /vagrant/test_result'
+        end
+        recipe
+    end
+
     s8.vm.provider :virtualbox do |s8_vb|
       s8_vb.name = "System08"
       s8_vb.memory = 4096

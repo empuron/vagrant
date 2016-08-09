@@ -30,11 +30,6 @@ execute 'copy_jboss' do
   command 'cp -r /vagrant/jboss/* /opt/jboss'
 end
 
-execute 'copy_jboss_service' do
-  user "root"
-  command 'cp /vagrant/jboss.service /usr/lib/systemd/system/jboss.service'
-end
-
 execute 'change_opt' do
   command "chown -R empuron.empuron /opt/jboss && chmod -R 755 /opt/jboss"
 end
