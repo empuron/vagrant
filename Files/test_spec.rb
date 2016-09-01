@@ -3,22 +3,22 @@
 #######################################
 
 # JBoss Ordner Elternverzeichnis
-jboss_folder_parent = 'opt'
+$jboss_folder_parent = 'opt'
 
 # JBoss Ordner Name
-jboss_folder_name = 'jboss'
+$jboss_folder_name = 'jboss'
 
 # Port auf dem JBoss hört
-jboss_port = '8080'
+$jboss_port = '8080'
 
 # Postgres Version
-postgres_version = '9.2'
+$postgres_version = '9.2'
 
 # Port von Postgres Service
-postgres_port = '5432'
+$postgres_port = '5432'
 
 # Name der Datenbank
-database_name = 'demo'
+$database_name = 'demo'
 
 # IP-Adressen von 158.226.194.0/24 Netzwerk
 $ipArray = ['32','42', '190']
@@ -102,7 +102,7 @@ end
 
 # Ist die richtige Postgres Version installiert
 describe command('psql --version') do
-  its(:stdout) { should match postgres_version }
+  its(:stdout) { should match $postgres_version }
 end
 
 # Wird der SSH Daemon beim Booten
