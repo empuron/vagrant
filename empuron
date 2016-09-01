@@ -1,14 +1,38 @@
 #!/usr/bin/env bash
 
-jboss="/home/moritz/system08_single/Files/jb7_demo_Dump.sql"
-liferay="/home/moritz/system08_single/Files/jb7_liferay_Dump.sql"
-jboss_dir="/home/moritz/system08_single/Files/jboss"
-liferay_dir="/home/moritz/system08_single/Files/liferay"
-java_sdk="/home/moritz/system08_single/Files/jdk-7u79-linux-x64.rpm"
-test_spec="/home/moritz/system08_single/Files/test_spec.rb"
+# Nachprüfen, ob Virtualbox und Vagrant installiert sind
+
+vagrant_command=$(vagrant --version)
+vagrant_check=$?
+virtualbox_command=$(vboxmanage --version)
+virtualbox_check=$?
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
+
+jboss="$DIR/Files/jb7_demo_Dump.sql"
+liferay="$DIR/Files/jb7_liferay_Dump.sql"
+jboss_dir="$DIR/Files/jboss"
+liferay_dir="$DIR/Files/liferay"
+java_sdk="$DIR/Files/jdk-7u79-linux-x64.rpm"
+test_spec="$DIR/Files/test_spec.rb"
 
 case "$1" in
   up)
+  if [[ "$vagrant_check" -eq 0 ]]
+  then
+    echo -e "Erfolgreich \t\033[32;1mVagrant ist installiert\033[0m"
+  else
+    echo -e "Fehler \t\033[31;1mVagrant ist nicht installiert\033[0m"
+    exit 1
+  fi
+
+  if [[ "$virtualbox_check" -eq 0 ]]
+  then
+    echo -e "Erfolgreich \t\033[32;1mVirtualBox ist installiert\033[0m"
+  else
+    echo -e "Fehler \t\033[31;1mVirtualBox ist nicht installiert\033[0m"
+    exit 1
+  fi
   if [[ -e "$jboss" ]]
   then
     echo -e "Erfolgreich \t\033[32;1mJBoss Dump File gefunden\033[0m"
@@ -55,7 +79,8 @@ case "$1" in
   vagrant up
   echo "Hier die Resultate von dem VM Start:"
   echo "------------------------------------"
-  cat /home/moritz/system08_single/Files/test_result
+  cat "$DIR/Files/test_result"
+  rm "$DIR/Files/test_result"
     ;;
   down)
   echo "Vagrant VM wird beendet und gelöscht..."

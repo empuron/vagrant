@@ -31,6 +31,7 @@ Vagrant.configure("2") do |config|
       lr_chef.add_recipe "liferay"
     end
 
+=begin
     s8.vm.provision "run_inspec", type: "chef_apply" do |inspec|
       inspec.recipe = <<-recipe
         execute 'inspec_test_copy' do
@@ -43,6 +44,7 @@ Vagrant.configure("2") do |config|
         end
         recipe
     end
+=end
 
     s8.vm.provider :virtualbox do |s8_vb|
       s8_vb.name = "System08"
