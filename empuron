@@ -2,6 +2,19 @@
 
 # Nachprüfen, ob Virtualbox und Vagrant installiert sind
 
+function_help(){
+  echo ""
+  echo "Keine Argument übergeben."
+  echo "--------------------------"
+  echo -e "Usage: empuron <\033[34;1mcommand\033[0m>"
+  echo -e "\033[32;1mup\033[0m			Startet den Vorgang bzw. die VM."
+  echo -e "\033[31;1mdown\033[0m                    Beendet den Vorgang bzw. die VM."
+  echo "Beachte: Mit down wird nicht nur die VM beendet, sondern"
+  echo "auch permanent gelöscht. (Nicht rückgängig)" 
+  echo ""
+	
+}
+
 vagrant_command=$(vagrant --version)
 vagrant_check=$?
 virtualbox_command=$(vboxmanage --version)
@@ -90,8 +103,6 @@ case "$1" in
   vagrant status
     ;;
   *)
-  echo "Keine Argument übergeben"
-  echo "Entweder mit 'up' starten"
-  echo "Oder mit 'down' beenden"
+  function_help 
     ;;
 esac

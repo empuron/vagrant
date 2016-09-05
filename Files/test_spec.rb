@@ -1,3 +1,5 @@
+require 'rspec/autorun'
+
 #######################################
 # Variablen ###########################
 #######################################
@@ -10,6 +12,9 @@ $jboss_folder_name = 'jboss'
 
 # Port auf dem JBoss hört
 $jboss_port = '8080'
+
+# Postgres Version Kommando
+$postgres_command = command('psql --version')
 
 # Postgres Version
 $postgres_version = '9.2'
@@ -101,7 +106,8 @@ end
 #######################################
 
 # Ist die richtige Postgres Version installiert
-describe command('psql --version') do
+describe $postgres_command do
+  its(:exit_status) { should eq 0 }
   its(:stdout) { should match $postgres_version }
 end
 
